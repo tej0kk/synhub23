@@ -23,4 +23,9 @@ class Produk extends Model
         return $this->hasMany(Pesanan::class);
     }
 
+    public function getFotoAttribute($foto)
+    {
+        return url('storage/produk/' . $foto);
+    }
+
 }
