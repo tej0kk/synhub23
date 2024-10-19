@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\dashboar;
 
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use App\Models\Fasilitas;
 use App\Models\Produk;
@@ -47,6 +48,7 @@ class ProdukController extends Controller
         //create Slider
         $produk = Produk::create([
             'foto'            => $image->hashName(),
+            'slug'            => Str::slug($request->judul_pendek, '-'),
             'judul_pendek'    => $request->judul_pendek,
             'judul_panjang'   => $request->judul_panjang,
             'subjudul'        => $request->subjudul,

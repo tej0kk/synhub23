@@ -28,7 +28,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('customer')->group(function () {
     Route::get('/banner', CustomerBannerController::class, ['as', 'customer']);
-    Route::get('/produk', CustomerProdukController::class, ['as', 'customer']);
+    Route::get('/produk', [CustomerProdukController::class, 'index'], ['as', 'customer']);
+    Route::get('/produk/{slug}', [CustomerProdukController::class, 'show'], ['as', 'customer']);
 });
 
 
