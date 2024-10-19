@@ -31,6 +31,7 @@ class ProdukController extends Controller
             'judul_pendek'    => 'required',
             'judul_panjang'   => 'required',
             'subjudul'        => 'required',
+            'deskripsi'       => 'required',
             'harga'           => 'required',
             'satuan'          => 'required',
             'fasilitas'       => 'required|array',
@@ -52,12 +53,12 @@ class ProdukController extends Controller
             'judul_pendek'    => $request->judul_pendek,
             'judul_panjang'   => $request->judul_panjang,
             'subjudul'        => $request->subjudul,
+            'deskripsi'       => $request->deskripsi,
             'harga'           => $request->harga,
             'satuan'          => $request->satuan,
         ]);
 
-        foreach($request->fasilitas as $item)
-        {
+        foreach ($request->fasilitas as $item) {
             $fasilitas = Fasilitas::create([
                 'produk_id'   => $produk->id,
                 'keterangan'  => $item
@@ -95,6 +96,7 @@ class ProdukController extends Controller
             'judul_pendek'    => 'required',
             'judul_panjang'   => 'required',
             'subjudul'        => 'required',
+            'deskripsi'       => 'required',
             'harga'           => 'required',
             'satuan'          => 'required',
             'fasilitas'       => 'required|array',
@@ -116,6 +118,7 @@ class ProdukController extends Controller
                 'judul_pendek'    => $request->judul_pendek,
                 'judul_panjang'   => $request->judul_panjang,
                 'subjudul'        => $request->subjudul,
+                'deskripsi'       => $request->deskripsi,
                 'harga'           => $request->harga,
                 'satuan'          => $request->satuan
             ]);
@@ -125,6 +128,7 @@ class ProdukController extends Controller
             'judul_pendek'    => $request->judul_pendek,
             'judul_panjang'   => $request->judul_panjang,
             'subjudul'        => $request->subjudul,
+            'deskripsi'       => $request->deskripsi,
             'harga'           => $request->harga,
             'satuan'          => $request->satuan
         ]);
