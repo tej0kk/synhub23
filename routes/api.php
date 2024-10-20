@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\customer\BannerController as CustomerBannerController;
+use App\Http\Controllers\customer\BayarController as CustomerBayarController;
+use App\Http\Controllers\customer\PesananController as CustomerPesananController;
 use App\Http\Controllers\customer\ProdukController as CustomerProdukController;
 use App\Http\Controllers\dashboar\BannerController as DashboarBannerController;
 use App\Http\Controllers\dashboar\BayarController as DashboarBayarController;
@@ -26,12 +29,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::get('/unauthenticate', [AuthController::class, 'unauthenticate'])->name('unauthenticate');
+
 Route::prefix('customer')->group(function () {
+    Route::post('/register', [AuthController::class, 'register'], ['as', 'customer']);
+    Route::get('/bayar', CustomerBayarController::class, ['as', 'customer']);
     Route::get('/banner', CustomerBannerController::class, ['as', 'customer']);
     Route::get('/produk', [CustomerProdukController::class, 'index'], ['as', 'customer']);
     Route::get('/produk/{slug}', [CustomerProdukController::class, 'show'], ['as', 'customer']);
+    Route::get('/pesanan', [CustomerPesananController::class, 'index'], ['as', 'customer'])->middleware('auth:sanctum');
+    Route::post('/pesanan', [CustomerPesananController::class, 'store'], ['as', 'customer'])->middleware('auth:sanctum');
+    Route::post('/pesanan/upload-bukti', [CustomerPesananController::class, 'uploadBukti'], ['as', 'customer'])->middleware('auth:sanctum');
 });
-
 
 Route::prefix('dashboard')->group(function () {
     Route::get('/banner/ubah-status', [DashboarBannerController::class, 'ubahStatus'], ['as', 'dashboard']);

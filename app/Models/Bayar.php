@@ -17,4 +17,9 @@ class Bayar extends Model
     {
         return $this->hasMany(Pesanan::class);
     }
+
+    public function getLogoAttribute($logo)
+    {
+        return url('storage/bayar/' . $logo);
+    }
 }

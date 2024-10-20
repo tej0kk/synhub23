@@ -36,13 +36,13 @@ class BayarController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $image = $request->file('foto');
+        $image = $request->file('logo');
         $image->storeAs('public/bayar', $image->hashName());
 
         //create Slider
         $bayar = Bayar::create([
             'logo'             => $image->hashName(),
-            'nama_orng'        => $request->nama_orng,
+            'nama_orang'       => $request->nama_orang,
             'nama_pembayaran'  => $request->nama_pembayaran,
             'nomor_rekening'   => $request->nomor_rekening,
             'status'           => $request->status
@@ -86,7 +86,7 @@ class BayarController extends Controller
 
         if ($request->file('logo')) {
             Storage::disk('local')->delete('public/bayar/' . basename($bayar->logo));
-            $image = $request->file('foto');
+            $image = $request->file('logo');
             $image->storeAs('public/bayar', $image->hashName());
 
             $bayar->update([
@@ -116,7 +116,7 @@ class BayarController extends Controller
      */
     public function destroy(Bayar $bayar)
     {
-        Storage::disk('local')->delete('public/batar/' . basename($bayar->logo));
+        Storage::disk('local')->delete('public/bayar/' . basename($bayar->logo));
 
         if ($bayar->delete()) {
             return 'Data Berhasil Disimpan';

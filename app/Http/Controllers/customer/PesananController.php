@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\dashboar;
+namespace App\Http\Controllers\customer;
 
 use App\Helpers\Bantuan;
 use App\Http\Controllers\Controller;
@@ -12,18 +12,15 @@ use Illuminate\Support\Facades\Auth;
 
 class PesananController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $pesanan = Pesanan::paginate(10);
+        $pesanan = Pesanan::where('user_id', Auth::user()->id)
+            ->with('produk', 'bayar')
+            ->get();
+
         return $pesanan;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
 
@@ -31,6 +28,7 @@ class PesananController extends Controller
             'user'      => 'required',
             'produk'    => 'required',
             'tanggal_1' => 'required',
+            'bayar'     => 'required'
         ];
 
         $messages = [
@@ -58,7 +56,7 @@ class PesananController extends Controller
                     $rules['tanggal_2'] = 'required';
                     $rules['keterangan'] = 'required';
                     break;
-                case 'coworkingspace':
+                case 'ruang-coworking':
                     $rules['jam_1'] = 'required';
                     $rules['jam_2'] = 'required';
                     break;
@@ -74,8 +72,24 @@ class PesananController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        if ($kategori == 'ruangmeeting') {
+            $durasi = $request->jam_2 - $request->jam_1;
+            $total = $durasi * $produk->harga;
+        } else if ($kategori == 'ruangrapat') {
+            $durasi = $request->jam_2 - $request->jam_1;
+            $total = $durasi * $produk->harga;
+        } else if ($kategori == 'ruang-coworking') {
+            $durasi = $request->jam_2 - $request->jam_1;
+            $total = $durasi * $produk->harga;
+        }
 
         $kode_pesanan = 'SYB' . Bantuan::code($kategori) . time() . Bantuan::generateRandomString();
+        // return response()->json([
+        //     'durasi' => $durasi,
+        //     'total'  => $total,
+        //     'kode'   => $kode_pesanan
+        // ]);
+
         $pesanan = Pesanan::create([
             'kode_pesanan'      => $kode_pesanan,
             'user_id'           => Auth::user()->id,
@@ -87,7 +101,10 @@ class PesananController extends Controller
             'jam_1'             => $request->jam_1,
             'jam_2'             => $request->jam_2,
             'keterangan'        => $request->keterangan,
+            'bayar_id'             => $request->bayar,
             'status'            => 1,
+            'durasi'            => $durasi,
+            'total'             => $total
         ]);
 
         if ($pesanan) {
@@ -97,39 +114,33 @@ class PesananController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Pesanan $pesanan)
+    public function uploadBukti(Request $request)
     {
-        if ($pesanan) {
-            return $pesanan;
-        } else {
-            return 'Maaf, data tidak ditemukan';
-        }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Pesanan $pesanan)
-    {
+        $validator = Validator::make($request->all(), [
+            'foto'      => 'required|image|mimes:jpeg,jpg,png|max:2000',
+            'kode_pesanan' => 'required'
+        ]);
         
-    }
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+        
+        $pesanan = Pesanan::where('kode_pesanan', $request->kode_pesanan)->first();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Pesanan $pesanan)
-    {
-        //
-    }
+        if(!$pesanan)
+        {
+            return 'Pesanan tidak valid';
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Pesanan $pesanan)
-    {
-        //
+        $image = $request->file('foto');
+        $image->storeAs('public/pesanan', $image->hashName());
+
+
+        $pesanan->update([
+            'bukti'     => $image->hashName(),
+            'status'    => 2
+        ]);
+
+        return 'Bukti Pembayaran Berhasil Diupload';
     }
 }

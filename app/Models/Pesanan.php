@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pesanan extends Model
 {
-    use HasFactory;    
+    use HasFactory;
 
     protected $table = 'pesanan';
 
@@ -31,5 +31,18 @@ class Pesanan extends Model
     public function getBuktiAttribute($bukti)
     {
         return url('storage/pesanan/' . $bukti);
+    }
+
+    public function getStatusAttribute($status)
+    {
+        if ($status == "1") {
+            return 'Silahkan Lakukan Pembayaran';
+        } else if ($status == "2") {
+            return 'Menunggu Konfirmasi Pembayaran';
+        } else if ($status == "3") {
+            return 'Pembayaran Telah Dikonfirmasi';
+        } else if ($status == "4") {
+            return 'Pesanan Selesai';
+        }
     }
 }
