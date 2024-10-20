@@ -90,6 +90,7 @@ class AuthController extends Controller
     {
         $user = User::where('id', Auth::user()->id)->first();
         $user->tokens()->delete();
+        
         return response()->json([
             'status' => 'berhasil',
             'message' => 'logout success'
