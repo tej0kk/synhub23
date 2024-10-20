@@ -15,7 +15,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'email'     => 'required|email',
             'password'  => 'required'
-        ]);
+        ], []);
 
         //if validation fail
         if ($validator->fails()) {
@@ -47,6 +47,12 @@ class AuthController extends Controller
             'email'    => 'required|unique:users',
             'password' => 'required|confirmed',
             'phone'    => 'required'
+        ], [
+            'name.required' => "Silahkan Isi Nama Lengkap Anda !!!!",
+            'email.required' => "Silahkan Isi Alamat Email aktif Anda !!!!",
+            'phone.required' => "Silahkan Isi No. Telepon aktif Anda !!!!",
+            'password.required' => "Silahkan Isi Password Anda !!!!",
+            'password.confirmed' => "Maaf, Password yang anda masukkan tidak sama !!!!",
         ]);
 
         if ($validator->fails()) {
