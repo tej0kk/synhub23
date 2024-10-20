@@ -41,6 +41,7 @@ Route::prefix('customer')->group(function () {
     Route::get('/pesanan', [CustomerPesananController::class, 'index'], ['as', 'customer'])->middleware('auth:sanctum');
     Route::post('/pesanan', [CustomerPesananController::class, 'store'], ['as', 'customer'])->middleware('auth:sanctum');
     Route::post('/pesanan/upload-bukti', [CustomerPesananController::class, 'uploadBukti'], ['as', 'customer'])->middleware('auth:sanctum');
+    Route::post('/logout', [AuthController::class, 'logout'], ['as', 'customer'])->middleware('auth:sanctum');
 });
 
 Route::prefix('dashboard')->group(function () {

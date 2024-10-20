@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -65,6 +66,16 @@ class AuthController extends Controller
             return "Register Berhasil, Silahkan Login dengan email dan password !";
         }
         return 'Data User Gagal Disimpan!';
+    }
+
+    public function logout()
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $user->tokens()->delete();
+        return response()->json([
+            // 'isi' => $user,
+            'message' => 'logout success'
+        ]);
     }
 
     public function unauthenticate()
