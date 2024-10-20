@@ -38,7 +38,10 @@ class AuthController extends Controller
 
         //if password from user and password from request not same
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return 'Login Gagal, Silahkan cek email dan password!';
+            return response()->json([
+                'status' => false,
+                'message' => 'Login Gagal, Silahkan cek email dan password!'
+            ]);
         }
 
         $user->token = $user->createToken('authToken')->plainTextToken;
