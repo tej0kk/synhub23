@@ -45,11 +45,13 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name'     => 'required',
             'email'    => 'required|unique:users',
-            'password' => 'required|confirmed',
-            'phone'    => 'required'
+            'password' => 'required|confirmed|min:8',
+            'phone'    => 'required|unique:users'
         ], [
             'name.required' => "Silahkan Isi Nama Lengkap Anda !!!!",
             'email.required' => "Silahkan Isi Alamat Email aktif Anda !!!!",
+            'email.unique' => "Maaf Email telah terdaftar !!!!",
+            'phone.unique' => "Maaf Email telah terdaftar !!!!",
             'phone.required' => "Silahkan Isi No. Telepon aktif Anda !!!!",
             'password.required' => "Silahkan Isi Password Anda !!!!",
             'password.confirmed' => "Maaf, Password yang anda masukkan tidak sama !!!!",
