@@ -12,10 +12,17 @@ class AuthController extends Controller
 {
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email'     => 'required|email',
-            'password'  => 'required'
-        ], []);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'email'    => 'required|email',
+                'password' => 'required',
+            ],
+            [
+                'email.required' => "Silahkan Isi Alamat Email aktif Anda !!!!",
+                'password.required' => "Silahkan Isi Password Anda !!!!",
+            ]
+        );
 
         //if validation fail
         if ($validator->fails()) {
@@ -31,7 +38,7 @@ class AuthController extends Controller
 
         //if password from user and password from request not same
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return 'Login Gagal!';
+            return 'Login Gagal, Silahkan cek email dan password!';
         }
 
         $user->token = $user->createToken('authToken')->plainTextToken;
