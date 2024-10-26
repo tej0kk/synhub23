@@ -136,7 +136,7 @@ class PesananController extends Controller
     public function uploadBukti(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'foto'      => 'required|image|mimes:jpeg,jpg,png|max:2000',
+            'foto'         => 'required|image|mimes:jpeg,jpg,png|max:2000',
             'kode_pesanan' => 'required'
         ]);
 
@@ -147,7 +147,9 @@ class PesananController extends Controller
         $pesanan = Pesanan::where('kode_pesanan', $request->kode_pesanan)->first();
 
         if (!$pesanan) {
-            return 'Pesanan tidak valid';
+            return response()->json([
+                'message' => 'Maaf, Pesanan Tidak Valid !'
+            ], 422);
         }
 
         $image = $request->file('foto');
@@ -159,6 +161,24 @@ class PesananController extends Controller
             'status'    => 2
         ]);
 
-        return 'Bukti Pembayaran Berhasil Diupload';
+        return response()->json([
+            'message' => 'Bukti Pembayaran Berhasil Diupload'
+        ], 202);
+    }
+
+    public function show($kode_pesanan)
+    {
+        $pesanan = Pesanan::where('kode_pesanan', $kode_pesanan)
+            ->where('user_id', Auth::user()->id)
+            ->with('produk', 'bayar')
+            ->first();
+
+        if (!$pesanan) {
+            return response()->json([
+                'message' => 'Maaf, Pesanan Tidak Valid !'
+            ], 422);
+        }
+
+        return $pesanan;
     }
 }
