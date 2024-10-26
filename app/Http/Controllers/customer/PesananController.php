@@ -110,7 +110,7 @@ class PesananController extends Controller
         if ($pesanan) {
             return response()->json(['message' => 'Pesanan Berhasil'], 201);
         } else {
-            return 'Maaf, Pesanan Belum Berhasil !';
+            return response()->json(['message' => 'Maaf, Pesanan Belum Berhasil !'], 422);
         }
     }
 
