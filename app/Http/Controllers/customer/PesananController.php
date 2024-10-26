@@ -25,7 +25,7 @@ class PesananController extends Controller
     {
 
         $rules = [
-            'user'      => 'required',
+            // 'user'      => 'required',
             'produk'    => 'required',
             'tanggal_1' => 'required',
             'bayar'     => 'required'
@@ -56,7 +56,7 @@ class PesananController extends Controller
                     $rules['tanggal_2'] = 'required';
                     $rules['keterangan'] = 'required';
                     break;
-                case 'ruang-coworking':
+                case 'ruangcoworking':
                     $rules['jam_1'] = 'required';
                     $rules['jam_2'] = 'required';
                     break;
