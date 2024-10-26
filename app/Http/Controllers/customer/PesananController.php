@@ -16,7 +16,7 @@ class PesananController extends Controller
     public function index()
     {
         $pesanan = Pesanan::where('user_id', Auth::user()->id)
-            ->with('produk', 'bayar')
+            ->with('produk', 'bayar', 'user')
             ->get();
 
         return $pesanan;
@@ -171,7 +171,7 @@ class PesananController extends Controller
     {
         $pesanan = Pesanan::where('kode_pesanan', $kode_pesanan)
             ->where('user_id', Auth::user()->id)
-            ->with('produk', 'bayar')
+            ->with('produk', 'bayar', 'user')
             ->first();
 
         if (!$pesanan) {
