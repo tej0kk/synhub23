@@ -32,7 +32,7 @@ class PesananController extends Controller
         ];
 
         $messages = [
-            'tanggal.required'  =>  'Silahkan Masukkan Tanggal Mulai Acara !!',
+            'tanggal_1.required'  =>  'Silahkan Masukkan Tanggal Mulai Acara !!',
             'produk.required'   =>  'Maaf, Ruangan Tidak Valid !!',
             'bayar.required'    =>  'Maaf, Metode Pembayaran Tidak Valid !!'
         ];
