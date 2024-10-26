@@ -13,7 +13,7 @@ class Bantuan
         }else if($val == 'ruangacara')
         {
             $hasil = '-RA-';
-        }else if($val == 'coworking')
+        }else if($val == 'ruangcoworking')
         {
             $hasil = '-CO-';
         }
@@ -21,8 +21,8 @@ class Bantuan
         return $hasil;
     }
 
-    public static function generateRandomString($length = 8) {
-        $characters = '!@#$%^&*?abcdefghijklmnopqrstuvwxyz';
+    public static function generateRandomString($length = 10) {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
