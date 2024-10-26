@@ -76,7 +76,7 @@ class PesananController extends Controller
             }
         } else {
             return response()->json([
-                'message' => 'Produk Tidak tersedia'
+                'message' => 'Ruangan Tidak tersedia'
             ], 422);
         }
 
@@ -124,7 +124,8 @@ class PesananController extends Controller
 
         if ($pesanan) {
             return response()->json([
-                'message' => 'Terima Kasih, Reservasi Berhasil, Silahkan Lakukan Pembayaran dan upload bukti pembayaran'
+                'message' => 'Terima Kasih, Reservasi Berhasil, Silahkan Lakukan Pembayaran dan upload bukti pembayaran',
+                'data'    =>  $kode_pesanan
             ], 201);
         } else {
             return response()->json([
