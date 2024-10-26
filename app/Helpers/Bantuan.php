@@ -21,7 +21,7 @@ class Bantuan
         return $hasil;
     }
 
-    public static function generateRandomString($length = 9) {
+    public static function generateRandomString($length = 10) {
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         $charactersLength = strlen($characters);
         $randomString = '';
