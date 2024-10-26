@@ -115,16 +115,20 @@ class PesananController extends Controller
             'jam_1'             => $request->jam_1,
             'jam_2'             => $request->jam_2,
             'keterangan'        => $request->keterangan,
-            'bayar_id'             => $request->bayar,
+            'bayar_id'          => $request->bayar,
             'status'            => 1,
             'durasi'            => $durasi,
             'total'             => $total
         ]);
 
         if ($pesanan) {
-            return response()->json(['message' => 'Pesanan Berhasil'], 201);
+            return response()->json([
+                'message' => 'Terima Kasih, Reservasi Berhasil, Silahkan Lakukan Pembayaran dan upload bukti pembayaran'
+            ], 201);
         } else {
-            return response()->json(['message' => 'Maaf, Pesanan Belum Berhasil !'], 422);
+            return response()->json([
+                'message' => 'Maaf, Reservasi Belum Berhasil !'
+            ], 422);
         }
     }
 
