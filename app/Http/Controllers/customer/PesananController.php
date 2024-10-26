@@ -108,7 +108,7 @@ class PesananController extends Controller
         ]);
 
         if ($pesanan) {
-            return 'Pesanan Berhasil';
+            return response()->json(['message' => 'Pesanan Berhasil'], 201);
         } else {
             return 'Maaf, Pesanan Belum Berhasil !';
         }
@@ -120,15 +120,14 @@ class PesananController extends Controller
             'foto'      => 'required|image|mimes:jpeg,jpg,png|max:2000',
             'kode_pesanan' => 'required'
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-        
+
         $pesanan = Pesanan::where('kode_pesanan', $request->kode_pesanan)->first();
 
-        if(!$pesanan)
-        {
+        if (!$pesanan) {
             return 'Pesanan tidak valid';
         }
 
