@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Pesanan;
 use App\Models\Produk;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -89,8 +90,8 @@ class PesananController extends Controller
         if ($kategori == 'ruangmeeting') {
             $durasi = $request->jam_2 - $request->jam_1;
             $total = $durasi * $produk->harga;
-        } else if ($kategori == 'ruangrapat') {
-            $durasi = $request->jam_2 - $request->jam_1;
+        } else if ($kategori == 'ruangacara') {
+            $durasi = Carbon::parse($request->tanggal_2)->diffInDays(Carbon::parse($request->tanggal_1));
             $total = $durasi * $produk->harga;
         } else if ($kategori == 'ruangcoworking') {
             $durasi = $request->jam_2 - $request->jam_1;
