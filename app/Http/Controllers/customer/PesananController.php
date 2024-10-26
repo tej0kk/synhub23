@@ -32,8 +32,9 @@ class PesananController extends Controller
         ];
 
         $messages = [
-            'user.required'  =>  'Silahkan Login Terlebih Dahulu !!',
-            'tanggal.required'  =>  'Silahkan Masukkan Tanggal Pemesanan !!',
+            'tanggal.required'  =>  'Silahkan Masukkan Tanggal Mulai Acara !!',
+            'produk.required'   =>  'Maaf, Ruangan Tidak Valid !!',
+            'bayar.required'    =>  'Maaf, Metode Pembayaran Tidak Valid !!'
         ];
 
         $produk = Produk::whereId($request->produk)->first();
@@ -49,20 +50,33 @@ class PesananController extends Controller
                     $rules['jam_1'] = 'required';
                     $rules['jam_2'] = 'required';
                     $rules['keterangan'] = 'required';
+                    $messages['perusahaan.required'] = 'Silahkan masukkan Perusahaan/Instansi Asal Anda !';
+                    $messages['jumlah_orang.required'] = 'Silahkan masukkan Jumlah Orang yang akan hadir !';
+                    $messages['jam_1.required'] = 'Silahkan masukkan Jam Mulai !';
+                    $messages['jam_2.required'] = 'Silahkan masukkan Jam Selesai !';
+                    $messages['keterangan.required'] = 'Silahkan masukkan Catatan/Kebutuhan tambahan Anda !';
+
                     break;
                 case 'ruangacara':
                     $rules['perusahaan'] = 'required';
                     $rules['jumlah_orang'] = 'required';
                     $rules['tanggal_2'] = 'required';
                     $rules['keterangan'] = 'required';
+                    $messages['perusahaan.required'] = 'Silahkan masukkan Perusahaan/Instansi Asal Anda !';
+                    $messages['tanggal_2.required'] = 'Silahkan Masukkan Tanggal Selesai Acara !!';
+                    $messages['keterangan.required'] = 'Silahkan masukkan Catatan/Kebutuhan tambahan Anda !';
                     break;
                 case 'ruangcoworking':
                     $rules['jam_1'] = 'required';
                     $rules['jam_2'] = 'required';
+                    $messages['jam_1.required'] = 'Silahkan masukkan Jam Mulai !';
+                    $messages['jam_2.required'] = 'Silahkan masukkan Jam Selesai !';
                     break;
             }
         } else {
-            return response()->json('Error !', 422);
+            return response()->json([
+                'message' => 'Produk Tidak tersedia'
+            ], 422);
         }
 
 
