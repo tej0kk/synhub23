@@ -78,7 +78,7 @@ class PesananController extends Controller
         } else if ($kategori == 'ruangrapat') {
             $durasi = $request->jam_2 - $request->jam_1;
             $total = $durasi * $produk->harga;
-        } else if ($kategori == 'ruang-coworking') {
+        } else if ($kategori == 'ruangcoworking') {
             $durasi = $request->jam_2 - $request->jam_1;
             $total = $durasi * $produk->harga;
         }
