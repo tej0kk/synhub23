@@ -41,7 +41,7 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 'gagal',
                 'message' => 'Login Gagal, Silahkan cek email dan password!'
-            ], 422);
+            ], 401);
         }
 
         $user->token = $user->createToken('authToken')->plainTextToken;
@@ -102,6 +102,6 @@ class AuthController extends Controller
         return response()->json([
             'status'  => false,
             'message' => "unauthenticate",
-        ]);
+        ], 401);
     }
 }
