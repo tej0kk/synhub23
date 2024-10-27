@@ -178,7 +178,7 @@ class PesananController extends Controller
 
         if (!$pesanan) {
             return response()->json([
-                'message' => 'Maaf, Pesanan Tidak Valid tes !'
+                'message' => 'Maaf, Pesanan Tidak Valid !'
             ], 422);
         }
 
