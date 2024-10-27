@@ -146,7 +146,7 @@ class PesananController extends Controller
         }
 
         $pesanan = Pesanan::where('kode_pesanan', $request->kode_pesanan)->first();
-
+        return $pesanan;
         if (!$pesanan) {
             return response()->json([
                 'message' => 'Maaf, Pesanan Tidak Valid !'
