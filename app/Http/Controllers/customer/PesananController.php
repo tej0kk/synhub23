@@ -139,6 +139,11 @@ class PesananController extends Controller
         $validator = Validator::make($request->all(), [
             'foto'         => 'required|image|mimes:jpeg,jpg,png|max:2000',
             'kode_pesanan' => 'required'
+        ],[
+            'foto.required' => 'Silahkan masukkan file foto bukti pembayaran !',
+            'foto.image' => 'Maaf file foto bukti pembayaran tidak valid !',
+            'foto.mimes' => 'Maaf file foto bukti pembayaran tidak valid !',
+            'foto.max' => 'Maaf file foto bukti pembayaran tidak valid, maksimal 2Mb !',
         ]);
 
         if ($validator->fails()) {
