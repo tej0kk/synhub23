@@ -29,7 +29,16 @@ class BannerController extends Controller
             'judul'     => 'required',
             'subjudul'  => 'required',
             'posisi'    => 'required',
-            'status'    => 'required',
+            'status'    => 'required|in:y,n',
+        ], [
+            'foto.image' => 'Maaf file foto tidak valid !',
+            'foto.mimes' => 'Maaf file foto tidak valid !',
+            'foto.max' => 'Maaf file foto tidak valid, maksimal 2MB  !',
+            'judul.required' => 'Silahkan masukkan judul banner !',
+            'subjudul.required' => 'Silahkan masukkan subjudul banner !',
+            'posisi.required' => 'Silahkan masukkan posisi banner !',
+            'status.required' => 'Maaf, status tidak valid !',
+            'status.in' => 'Maaf, status tidak valid !',
         ]);
 
         if ($validator->fails()) {
@@ -82,11 +91,19 @@ class BannerController extends Controller
     public function update(Request $request, Banner $banner)
     {
         $validator = Validator::make($request->all(), [
-            'foto'    => 'required|image|mimes:jpeg,jpg,png|max:2000',
+            'foto'      => 'image|mimes:jpeg,jpg,png|max:2000',
             'judul'     => 'required',
             'subjudul'  => 'required',
             'posisi'    => 'required',
-            'status'    => 'required',
+            'status'    => 'required|in:y,n',
+        ], [
+            'foto.mimes' => 'Maaf file foto tidak valid !',
+            'foto.max' => 'Maaf file foto tidak valid, maksimal 2MB  !',
+            'judul.required' => 'Silahkan masukkan judul banner !',
+            'subjudul.required' => 'Silahkan masukkan subjudul banner !',
+            'posisi.required' => 'Silahkan masukkan posisi banner !',
+            'status.required' => 'Maaf, status tidak valid !',
+            'status.in' => 'Maaf, status tidak valid !',
         ]);
 
         if ($validator->fails()) {

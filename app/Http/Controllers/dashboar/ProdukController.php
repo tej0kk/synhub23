@@ -26,17 +26,34 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'foto'            => 'required|image|mimes:jpeg,jpg,png|max:2000',
-            'judul_pendek'    => 'required',
-            'judul_panjang'   => 'required',
-            'subjudul'        => 'required',
-            'deskripsi'       => 'required',
-            'harga'           => 'required',
-            'satuan'          => 'required',
-            'fasilitas'       => 'required|array',
-            'fasilitas.*'     => 'required|string|min:3',
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'foto'            => 'required|image|mimes:jpeg,jpg,png|max:2000',
+                'judul_pendek'    => 'required',
+                'judul_panjang'   => 'required',
+                'subjudul'        => 'required',
+                'deskripsi'       => 'required',
+                'harga'           => 'required|numeric',
+                'satuan'          => 'required',
+                'fasilitas'       => 'required|array',
+                'fasilitas.*'     => 'required|string|min:3',
+            ],
+            [
+                'foto.required' => 'Silahkan Masukkan Foto Produk !',
+                'foto.mimes' => 'Maaf file foto tidak valid !',
+                'foto.max' => 'Maaf file foto tidak valid, maksimal 2MB  !',
+                'judul_pendek.required' => 'Silahkan masukkan judul produk !',
+                'judul_panjang.required' => 'Silahkan masukkan judul lengkap produk !',
+                'subjudul.required' => 'Silahkan masukkan subjudul produk !',
+                'deskripsi.required' => 'Silahkan masukkan deskripsi produk !',
+                'satuan.required' => 'Silahkan masukkan satuan penyewaan !',
+                'harga.required' => 'Maaf, harga tidak valid !',
+                'harga.numeric' => 'Maaf, harga tidak valid !',
+                'fasilitas.required' => 'Silahkan masukkan fasilitas !',
+                'fasilitas.*' => 'Silahkan masukkan fasilitas !',
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -97,17 +114,33 @@ class ProdukController extends Controller
      */
     public function update(Request $request, Produk $produk)
     {
-        $validator = Validator::make($request->all(), [
-            'foto'            => 'required|image|mimes:jpeg,jpg,png|max:2000',
-            'judul_pendek'    => 'required',
-            'judul_panjang'   => 'required',
-            'subjudul'        => 'required',
-            'deskripsi'       => 'required',
-            'harga'           => 'required',
-            'satuan'          => 'required',
-            'fasilitas'       => 'required|array',
-            'fasilitas.*'     => 'required|string|min:3',
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'foto'            => 'image|mimes:jpeg,jpg,png|max:2000',
+                'judul_pendek'    => 'required',
+                'judul_panjang'   => 'required',
+                'subjudul'        => 'required',
+                'deskripsi'       => 'required',
+                'harga'           => 'required|numeric',
+                'satuan'          => 'required',
+                'fasilitas'       => 'required|array',
+                'fasilitas.*'     => 'required|string|min:3',
+            ],
+            [
+                'foto.mimes' => 'Maaf file foto tidak valid !',
+                'foto.max' => 'Maaf file foto tidak valid, maksimal 2MB  !',
+                'judul_pendek.required' => 'Silahkan masukkan judul produk !',
+                'judul_panjang.required' => 'Silahkan masukkan judul lengkap produk !',
+                'subjudul.required' => 'Silahkan masukkan subjudul produk !',
+                'deskripsi.required' => 'Silahkan masukkan deskripsi produk !',
+                'satuan.required' => 'Silahkan masukkan satuan penyewaan !',
+                'harga.required' => 'Maaf, harga tidak valid !',
+                'harga.numeric' => 'Maaf, harga tidak valid !',
+                'fasilitas.required' => 'Silahkan masukkan fasilitas !',
+                'fasilitas.*' => 'Silahkan masukkan fasilitas !',
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -128,6 +161,13 @@ class ProdukController extends Controller
                 'harga'           => $request->harga,
                 'satuan'          => $request->satuan
             ]);
+
+            foreach ($request->fasilitas as $item) {
+                $fasilitas = Fasilitas::create([
+                    'produk_id'   => $produk->id,
+                    'keterangan'  => $item
+                ]);
+            }
         }
 
         $produk->update([
@@ -138,8 +178,13 @@ class ProdukController extends Controller
             'harga'           => $request->harga,
             'satuan'          => $request->satuan
         ]);
-
-        if ($produk) {
+        foreach ($request->fasilitas as $item) {
+            $fasilitas = Fasilitas::create([
+                'produk_id'   => $produk->id,
+                'keterangan'  => $item
+            ]);
+        }
+        if ($produk and $fasilitas) {
             return response()->json([
                 'message' => 'Data Berhasil diupdate',
             ], 202);
