@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers\dashboar;
 
-use App\Helpers\Bantuan;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Pesanan;
-use App\Models\Produk;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PesananController extends Controller
 {
@@ -37,9 +32,9 @@ class PesananController extends Controller
 
     public function ubahStatus($kode_pesanan)
     {
-        $status = Pesanan::where('kode_pesanan', $kode_pesanan)->first()->status;
+        $status = Pesanan::where('kode_pesanan', $kode_pesanan)->first();
 
-        return $status;
+        return $status->getOriginal('status');
     }
 
 }
