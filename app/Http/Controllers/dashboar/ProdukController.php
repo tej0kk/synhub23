@@ -87,7 +87,7 @@ class ProdukController extends Controller
             return $produk;
         } else {
             return response()->json([
-                'message' => 'Maaf, data belum berhasil diupdate'
+                'message' => 'Maaf, data tidak valid !!'
             ], 422);
         }
     }

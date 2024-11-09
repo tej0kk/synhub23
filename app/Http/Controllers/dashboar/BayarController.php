@@ -65,10 +65,10 @@ class BayarController extends Controller
     public function show(Bayar $bayar)
     {
         if ($bayar) {
-            return 'Data Berhasil Disimpan';
+            return $bayar;
         } else {
             return response()->json([
-                'message' => 'Maaf, data belum berhasil diupdate'
+                'message' => 'Maaf, data tidak valid !'
             ], 422);
         }
     }

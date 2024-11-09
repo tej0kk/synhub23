@@ -35,20 +35,11 @@ class PesananController extends Controller
         }
     }
 
-    public function ubahStatus(Pesanan $pesanan, Request $request)
+    public function ubahStatus($kode_pesanan)
     {
-        $validator = Validator::make($request->all(), [
-            'status'    => 'required|in:1,2,3,4,5',
-        ], [
-            'status.required'   =>  'Tidak Valid !',
-            'status.in'         =>  'Tidak Valid !',
-        ]);
+        $status = Pesanan::where('kode_pesanan', $kode_pesanan)->first()->status;
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $status = $pesanan->status;
+        return $status;
     }
 
 }

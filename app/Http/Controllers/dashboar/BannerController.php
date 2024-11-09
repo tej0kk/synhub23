@@ -71,7 +71,7 @@ class BannerController extends Controller
             return $banner;
         } else {
             return response()->json([
-                'message' => 'Maaf, data belum berhasil diupdate'
+                'message' => 'Maaf, data tidak valid !'
             ], 422);
         }
     }
