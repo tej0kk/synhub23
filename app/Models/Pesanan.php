@@ -44,5 +44,6 @@ class Pesanan extends Model
         } else if ($status == "4") {
             return 'Pesanan Selesai';
         }
+        return $status;
     }
 }
