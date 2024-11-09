@@ -36,8 +36,8 @@ Route::prefix('customer')->group(function () {
     Route::post('/register', [AuthController::class, 'register'], ['as', 'customer']);
     Route::get('/banner', CustomerBannerController::class, ['as', 'customer']);
     Route::get('/produk', [CustomerProdukController::class, 'index'], ['as', 'customer']);
+    Route::get('/produk/{slug}', [CustomerProdukController::class, 'show'], ['as', 'customer']);
     Route::get('/bayar', CustomerBayarController::class, ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
-    Route::get('/produk/{slug}', [CustomerProdukController::class, 'show'], ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
     Route::get('/pesanan', [CustomerPesananController::class, 'index'], ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
     Route::post('/pesanan', [CustomerPesananController::class, 'store'], ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
     Route::post('upload-bukti-pesanan', [CustomerPesananController::class, 'uploadBukti'], ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
