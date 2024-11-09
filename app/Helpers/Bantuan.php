@@ -30,4 +30,19 @@ class Bantuan
         }
         return $randomString;
     }
+
+    public static function statusInt($string)
+    {
+        if ($string == "Silahkan Lakukan Pembayaran") {
+            return 1;
+        } else if ($string == "Menunggu Konfirmasi Pembayaran") {
+            return 2;
+        } else if ($string == "Pembayaran Telah Dikonfirmasi") {
+            return 3;
+        } else if ($string == "Pesanan Selesai") {
+            return 4;
+        }
+
+        return 0;
+    }
 }

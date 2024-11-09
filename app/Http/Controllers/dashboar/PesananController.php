@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\dashboar;
 
+use App\Helpers\Bantuan;
 use App\Http\Controllers\Controller;
 use App\Models\Pesanan;
 
@@ -33,11 +34,28 @@ class PesananController extends Controller
     public function ubahStatus($kode_pesanan)
     {
         $pesanan = Pesanan::where('kode_pesanan', $kode_pesanan)->first();
-
         if ($pesanan) {
-            return $pesanan->getOriginal('status'); // Mendapatkan nilai asli angka
+            $status = Bantuan::statusInt($pesanan->status);
+            if ($status == 1) {
+                $pesanan->update(['status' => 2]);
+            } elseif ($status == 2) {
+                $pesanan->update(['status' => 3]);
+            } elseif ($status == 3) {
+                $pesanan->update(['status' => 4]);
+            } elseif ($status == 4) {
+                $pesanan->update(['status' => 5]);
+            } else {
+                return response()->json([
+                    'message' => 'Maaf, Pesanan Tidak Valid !'
+                ], 422);
+            }
+            return response()->json([
+                'message' => 'Status Berhasil Diupdate',
+            ], 202);
         } else {
-            return 'Pesanan tidak ditemukan';
+            return response()->json([
+                'message' => 'Maaf, Pesanan Tidak Valid !'
+            ], 422);
         }
     }
 }
