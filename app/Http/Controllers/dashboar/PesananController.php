@@ -34,7 +34,10 @@ class PesananController extends Controller
     {
         $status = Pesanan::where('kode_pesanan', $kode_pesanan)->first();
 
-        return $status->getOriginal('status');
+        if ($status) {
+            return $status->getOriginal('status'); // Mendapatkan nilai asli angka
+        } else {
+            return 'Pesanan tidak ditemukan';
+        }
     }
-
 }
