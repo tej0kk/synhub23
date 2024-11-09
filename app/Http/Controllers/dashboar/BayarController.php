@@ -28,17 +28,8 @@ class BayarController extends Controller
             'logo'             => 'required|image|mimes:jpeg,jpg,png|max:2000',
             'nama_orang'       => 'required',
             'nama_pembayaran'  => 'required',
-            'nomor_rekening'   => 'required|numeric',
+            'nomor_rekening'   => 'required',
             'status'           => 'required',
-        ], [
-            'logo.required' => 'Silahkan masukkan file logo !',
-            'logo.image' => 'Maaf file logo tidak valid !',
-            'logo.mimes' => 'Maaf file logo tidak valid !',
-            'logo.max' => 'Maaf file logo tidak valid, maksimal 2MB  !',
-            'nama_orang.required' => 'Silahkan masukkan nama pemilik rekening !',
-            'nama_pembayaran.required' => 'Silahkan masukkan nama pembayaran !',
-            'nomor_rekening.required' => 'Silahkan masukkan nomor_rekening !',
-            'nomor_rekening.numeric' => 'Maaf, nomor_rekening tidak valid !',
         ]);
 
         if ($validator->fails()) {
