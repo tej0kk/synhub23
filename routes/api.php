@@ -46,12 +46,12 @@ Route::prefix('customer')->group(function () {
 });
 
 Route::prefix('dashboard')->group(function () {
-    Route::get('/banner/ubah-status/{banner}', [DashboarBannerController::class, 'ubahStatus'], ['as', 'dashboard']);
-    Route::get('/bayar/ubah-status/{bayar}', [DashboarBayarController::class, 'ubahStatus'], ['as', 'dashboard']);
-    Route::get('/pesanan/ubah-status/{pesanan}', [DashboarPesananController::class, 'ubahStatus'], ['as', 'dashboard']);
-    Route::resource('/banner', DashboarBannerController::class, ['as', 'dashboard'])->except('create', 'edit');
-    Route::resource('/pesanan', DashboarPesananController::class, ['as', 'dashboard'])->except('create', 'store', 'update', 'edit', 'destroy');
-    Route::resource('/produk', DashboarProdukController::class, ['as', 'dashboard'])->except('create', 'edit');
-    Route::resource('/bayar', DashboarBayarController::class, ['as', 'dashboard'])->except('create', 'edit');
+    Route::get('/banner/ubah-status/{banner}', [DashboarBannerController::class, 'ubahStatus'], ['as', 'dashboard'])->middleware(['auth:sanctum', 'checkrole:admin']);
+    Route::get('/bayar/ubah-status/{bayar}', [DashboarBayarController::class, 'ubahStatus'], ['as', 'dashboard'])->middleware(['auth:sanctum', 'checkrole:admin']);
+    Route::get('/pesanan/ubah-status/{pesanan}', [DashboarPesananController::class, 'ubahStatus'], ['as', 'dashboard'])->middleware(['auth:sanctum', 'checkrole:admin']);
+    Route::resource('/banner', DashboarBannerController::class, ['as', 'dashboard'])->except('create', 'edit')->middleware(['auth:sanctum', 'checkrole:admin']);
+    Route::resource('/pesanan', DashboarPesananController::class, ['as', 'dashboard'])->except('create', 'store', 'update', 'edit', 'destroy')->middleware(['auth:sanctum', 'checkrole:admin']);
+    Route::resource('/produk', DashboarProdukController::class, ['as', 'dashboard'])->except('create', 'edit')->middleware(['auth:sanctum', 'checkrole:admin']);
+    Route::resource('/bayar', DashboarBayarController::class, ['as', 'dashboard'])->except('create', 'edit')->middleware(['auth:sanctum', 'checkrole:admin']);
     Route::resource('/user', DashboarUserController::class, ['as', 'dashboard'])->except('create', 'edit');
 });
