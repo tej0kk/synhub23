@@ -32,10 +32,10 @@ class PesananController extends Controller
 
     public function ubahStatus($kode_pesanan)
     {
-        $status = Pesanan::where('kode_pesanan', $kode_pesanan)->first();
+        $pesanan = Pesanan::where('kode_pesanan', $kode_pesanan)->first();
 
-        if ($status) {
-            return $status->getOriginal('status'); // Mendapatkan nilai asli angka
+        if ($pesanan) {
+            return $pesanan->getOriginal('status'); // Mendapatkan nilai asli angka
         } else {
             return 'Pesanan tidak ditemukan';
         }
