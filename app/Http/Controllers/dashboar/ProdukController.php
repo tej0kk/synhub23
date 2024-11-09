@@ -161,7 +161,7 @@ class ProdukController extends Controller
                 'harga'           => $request->harga,
                 'satuan'          => $request->satuan
             ]);
-
+            Fasilitas::where('produk_id', $produk->id)->delete();
             foreach ($request->fasilitas as $item) {
                 $fasilitas = Fasilitas::create([
                     'produk_id'   => $produk->id,
@@ -178,6 +178,8 @@ class ProdukController extends Controller
             'harga'           => $request->harga,
             'satuan'          => $request->satuan
         ]);
+        
+        Fasilitas::where('produk_id', $produk->id)->delete();
         foreach ($request->fasilitas as $item) {
             $fasilitas = Fasilitas::create([
                 'produk_id'   => $produk->id,
