@@ -7,11 +7,11 @@ use App\Http\Controllers\customer\PesananController as CustomerPesananController
 use App\Http\Controllers\customer\ProdukController as CustomerProdukController;
 use App\Http\Controllers\dashboar\BannerController as DashboarBannerController;
 use App\Http\Controllers\dashboar\BayarController as DashboarBayarController;
+use App\Http\Controllers\dashboar\PesananController as DashboarPesananController;
 use App\Http\Controllers\dashboar\ProdukController as DashboarProdukController;
 use App\Http\Controllers\dashboar\UserController as DashboarUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,9 +34,9 @@ Route::get('/unauthenticate', [AuthController::class, 'unauthenticate'])->name('
 
 Route::prefix('customer')->group(function () {
     Route::post('/register', [AuthController::class, 'register'], ['as', 'customer']);
+    Route::get('/banner', CustomerBannerController::class, ['as', 'customer']);
+    Route::get('/produk', [CustomerProdukController::class, 'index'], ['as', 'customer']);
     Route::get('/bayar', CustomerBayarController::class, ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
-    Route::get('/banner', CustomerBannerController::class, ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
-    Route::get('/produk', [CustomerProdukController::class, 'index'], ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
     Route::get('/produk/{slug}', [CustomerProdukController::class, 'show'], ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
     Route::get('/pesanan', [CustomerPesananController::class, 'index'], ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
     Route::post('/pesanan', [CustomerPesananController::class, 'store'], ['as', 'customer'])->middleware(['auth:sanctum', 'checkrole:customer']);
@@ -46,9 +46,11 @@ Route::prefix('customer')->group(function () {
 });
 
 Route::prefix('dashboard')->group(function () {
-    Route::get('/banner/ubah-status', [DashboarBannerController::class, 'ubahStatus'], ['as', 'dashboard']);
-    Route::get('/bayar/ubah-status', [DashboarBayarController::class, 'ubahStatus'], ['as', 'dashboard']);
+    Route::get('/banner/ubah-status/{banner}', [DashboarBannerController::class, 'ubahStatus'], ['as', 'dashboard']);
+    Route::get('/bayar/ubah-status/{bayar}', [DashboarBayarController::class, 'ubahStatus'], ['as', 'dashboard']);
+    Route::get('/pesanan/ubah-status/{pesanan}', [DashboarPesananController::class, 'ubahStatus'], ['as', 'dashboard']);
     Route::resource('/banner', DashboarBannerController::class, ['as', 'dashboard'])->except('create', 'edit');
+    Route::resource('/pesanan', DashboarPesananController::class, ['as', 'dashboard'])->except('create', 'store', 'update', 'edit', 'destroy');
     Route::resource('/produk', DashboarProdukController::class, ['as', 'dashboard'])->except('create', 'edit');
     Route::resource('/bayar', DashboarBayarController::class, ['as', 'dashboard'])->except('create', 'edit');
     Route::resource('/user', DashboarUserController::class, ['as', 'dashboard'])->except('create', 'edit');

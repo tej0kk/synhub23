@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -24,31 +26,42 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'      => 'required',
-            'email'     => 'required',
-            'phone'     => 'required',
-            'password'  => 'required',
-            'role'      => 'required',
-            'status'    => 'required',
+            'name'     => 'required',
+            'email'    => 'required|unique:users',
+            'password' => 'required|confirmed|min:8',
+            'phone'    => 'required|unique:users'
+        ], [
+            'name.required' => "Silahkan Isi Nama Lengkap Anda !!!!",
+            'email.required' => "Silahkan Isi Alamat Email aktif Anda !!!!",
+            'email.unique' => "Maaf Email telah terdaftar !!!!",
+            'phone.unique' => "Maaf Email telah terdaftar !!!!",
+            'phone.required' => "Silahkan Isi No. Telepon aktif Anda !!!!",
+            'password.required' => "Silahkan Isi Password Anda !!!!",
+            'password.confirmed' => "Maaf, Password yang anda masukkan tidak sama !!!!",
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
+        //create user
         $user = User::create([
             'name'      => $request->name,
             'email'     => $request->email,
             'phone'     => $request->phone,
-            'password'  => $request->password,
-            'role'      => $request->role,
-            'status'    => $request->status
+            'password'  => Hash::make($request->password),
+            'role'      => 'admin',
+            'statu'     => 'y'
         ]);
 
         if ($user) {
-            return 'Data Berhasil Disimpan';
+            return response()->json([
+                'message' => 'Data Berhasil Disimpan',
+            ], 201);
         } else {
-            return 'Maaf, data belum berhasil disimpan';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil disimpan'
+            ], 422);
         }
     }
 
@@ -58,9 +71,11 @@ class UserController extends Controller
     public function show(User $user)
     {
         if ($user) {
-            return 'Data Berhasil Disimpan';
+            return $user;
         } else {
-            return 'Maaf, data belum berhasil disimpan';
+            return response()->json([
+                'message' => 'Maaf, User Tidak Valid !'
+            ], 422);
         }
     }
 
@@ -70,12 +85,18 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
-            'name'      => 'required',
-            'email'     => 'required',
-            'phone'     => 'required',
-            'password'  => 'required',
-            'role'      => 'required',
-            'status'    => 'required',
+            'name'     => 'required',
+            'email'    => 'required|unique:users',
+            'password' => 'required|confirmed|min:8',
+            'phone'    => 'required|unique:users'
+        ], [
+            'name.required' => "Silahkan Isi Nama Lengkap Anda !!!!",
+            'email.required' => "Silahkan Isi Alamat Email aktif Anda !!!!",
+            'email.unique' => "Maaf Email telah terdaftar !!!!",
+            'phone.unique' => "Maaf Email telah terdaftar !!!!",
+            'phone.required' => "Silahkan Isi No. Telepon aktif Anda !!!!",
+            'password.required' => "Silahkan Isi Password Anda !!!!",
+            'password.confirmed' => "Maaf, Password yang anda masukkan tidak sama !!!!",
         ]);
 
         if ($validator->fails()) {
@@ -86,15 +107,19 @@ class UserController extends Controller
             'name'      => $request->name,
             'email'     => $request->email,
             'phone'     => $request->phone,
-            'password'  => $request->password,
-            'role'      => $request->role,
+            'password'  => Hash::make($request->password),
+            'role'      => 'admin',
             'status'    => $request->status
         ]);
 
         if ($user) {
-            return 'Data Berhasil diupdate';
+            return response()->json([
+                'message' => 'Data Berhasil diupdate',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil diupdate';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
         }
     }
 
@@ -104,15 +129,37 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->delete()) {
-            return 'Data Berhasil Disimpan';
+            return response()->json([
+                'message' => 'Data Berhasil diupdate',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil dihapus';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
         }
     }
 
     public function ubahStatus(User $user)
     {
-        $user->update(['status', ($user->status) == 'n' ? 'y' : 'n']);
-        return 'Status User Berhasil diubah';
+        if ($user->update(['status', ($user->status) == 'n' ? 'y' : 'n'])) {
+            return response()->json([
+                'message' => 'Data Berhasil diupdate',
+            ], 202);
+        } else {
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
+        }
+    }
+
+    public function logout()
+    {
+        $user = User::where('id', Auth::user()->id)->first();
+        $user->tokens()->delete();
+
+        return response()->json([
+            'status' => 'berhasil',
+            'message' => 'logout success'
+        ]);
     }
 }

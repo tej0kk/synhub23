@@ -99,11 +99,6 @@ class PesananController extends Controller
         }
 
         $kode_pesanan = 'SYB' . Bantuan::code($kategori) . time() . Bantuan::generateRandomString();
-        // return response()->json([
-        //     'durasi' => $durasi,
-        //     'total'  => $total,
-        //     'kode'   => $kode_pesanan
-        // ]);
 
         $pesanan = Pesanan::create([
             'kode_pesanan'      => $kode_pesanan,

@@ -49,9 +49,13 @@ class BayarController extends Controller
         ]);
 
         if ($bayar) {
-            return 'Data Berhasil Disimpan';
+            return response()->json([
+                'message' => 'Data Berhasil Disimpan',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil disimpan';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil disimpan'
+            ], 422);
         }
     }
 
@@ -63,7 +67,9 @@ class BayarController extends Controller
         if ($bayar) {
             return 'Data Berhasil Disimpan';
         } else {
-            return 'Maaf, data tidak ditemukan';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
         }
     }
 
@@ -105,9 +111,13 @@ class BayarController extends Controller
         ]);
 
         if ($bayar) {
-            return 'Data Berhasil diupdate';
+            return response()->json([
+                'message' => 'Data Berhasil diupdate',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil diupdate';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
         }
     }
 
@@ -119,9 +129,13 @@ class BayarController extends Controller
         Storage::disk('local')->delete('public/bayar/' . basename($bayar->logo));
 
         if ($bayar->delete()) {
-            return 'Data Berhasil Disimpan';
+            return response()->json([
+                'message' => 'Data Berhasil dihapus',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil dihapus';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil dihapus'
+            ], 422);
         }
     }
 

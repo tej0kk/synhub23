@@ -50,9 +50,13 @@ class BannerController extends Controller
         ]);
 
         if ($banner) {
-            return 'Data Berhasil Disimpan';
+            return response()->json([
+                'message' => 'Data Berhasil Disimpan',
+            ], 201);
         } else {
-            return 'Maaf, data belum berhasil disimpan';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil disimpan'
+            ], 422);
         }
     }
 
@@ -66,7 +70,9 @@ class BannerController extends Controller
         if ($banner) {
             return $banner;
         } else {
-            return 'Maaf, data tidak ditemukan';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
         }
     }
 
@@ -112,9 +118,13 @@ class BannerController extends Controller
         ]);
 
         if ($banner) {
-            return 'Data Berhasil diupdate';
+            return response()->json([
+                'message' => 'Data Berhasil diupdate',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil diupdate';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
         }
     }
 
@@ -126,15 +136,21 @@ class BannerController extends Controller
         Storage::disk('local')->delete('public/banner/' . basename($banner->foto));
 
         if ($banner->delete()) {
-            return 'Data Berhasil Disimpan';
+            return response()->json([
+                'message' => 'Data Berhasil dihapus',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil dihapus';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil dihapus'
+            ], 422);
         }
     }
 
     public function ubahStatus(Banner $banner)
     {
         $banner->update(['status', ($banner->status) == 'n' ? 'y' : 'n']);
-        return 'Status Banner Berhasil diubah';
+        return response()->json([
+            'message' => 'Status Banner Berhasil diubah',
+        ], 202);
     }
 }

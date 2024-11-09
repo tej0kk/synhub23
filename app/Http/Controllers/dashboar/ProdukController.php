@@ -66,9 +66,13 @@ class ProdukController extends Controller
         }
 
         if ($produk and $fasilitas) {
-            return 'Data Berhasil Disimpan';
+            return response()->json([
+                'message' => 'Data Berhasil Disimpan',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil disimpan';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil disimpan'
+            ], 422);
         }
     }
 
@@ -82,7 +86,9 @@ class ProdukController extends Controller
         if ($produk) {
             return $produk;
         } else {
-            return 'Maaf, data tidak ditemukan';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
         }
     }
 
@@ -134,9 +140,13 @@ class ProdukController extends Controller
         ]);
 
         if ($produk) {
-            return 'Data Berhasil diupdate';
+            return response()->json([
+                'message' => 'Data Berhasil diupdate',
+            ], 202);
         } else {
-            return 'Maaf, data tidak berhasil diupdate';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil diupdate'
+            ], 422);
         }
     }
 
@@ -148,9 +158,13 @@ class ProdukController extends Controller
         Storage::disk('local')->delete('public/produk/' . basename($produk->foto));
 
         if ($produk->delete()) {
-            return 'Data Berhasil Disimpan';
+            return response()->json([
+                'message' => 'Data Berhasil dihapus',
+            ], 202);
         } else {
-            return 'Maaf, data belum berhasil dihapus';
+            return response()->json([
+                'message' => 'Maaf, data belum berhasil dihapus'
+            ], 422);
         }
     }
 }
