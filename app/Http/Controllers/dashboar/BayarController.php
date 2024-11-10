@@ -64,7 +64,7 @@ class BayarController extends Controller
         } else {
             return response()->json([
                 'message' => 'Maaf, data belum berhasil disimpan'
-            ], 422);
+            ], 400);
         }
     }
 
@@ -136,7 +136,7 @@ class BayarController extends Controller
         } else {
             return response()->json([
                 'message' => 'Maaf, data belum berhasil diupdate'
-            ], 422);
+            ], 400);
         }
     }
 
@@ -154,7 +154,7 @@ class BayarController extends Controller
         } else {
             return response()->json([
                 'message' => 'Maaf, data belum berhasil dihapus'
-            ], 422);
+            ], 400);
         }
     }
 
