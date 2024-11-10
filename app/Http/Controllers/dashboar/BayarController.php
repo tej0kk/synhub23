@@ -60,7 +60,7 @@ class BayarController extends Controller
         if ($bayar) {
             return response()->json([
                 'message' => 'Data Berhasil Disimpan',
-            ], 202);
+            ], 201);
         } else {
             return response()->json([
                 'message' => 'Maaf, data belum berhasil disimpan'
