@@ -29,7 +29,7 @@ class BayarController extends Controller
             'nama_orang'       => 'required',
             'nama_pembayaran'  => 'required',
             'nomor_rekening'   => 'required|numeric',
-            'status'           => 'required',
+            'status'           => 'required|in:y,n',
         ], [
             'logo.required' => 'Silahkan masukkan file logo !',
             'logo.image' => 'Maaf file logo tidak valid !',
@@ -39,6 +39,8 @@ class BayarController extends Controller
             'nama_pembayaran.required' => 'Silahkan masukkan nama pembayaran !',
             'nomor_rekening.required' => 'Silahkan masukkan nomor_rekening !',
             'nomor_rekening.numeric' => 'Maaf, nomor_rekening tidak valid !',
+            'status.required' => 'Maaf, status tidak valid !',
+            'status.in' => 'Maaf, status tidak valid !',
         ]);
 
         if ($validator->fails()) {
