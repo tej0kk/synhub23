@@ -31,6 +31,7 @@ class BannerController extends Controller
             'posisi'    => 'required',
             'status'    => 'required|in:y,n',
         ], [
+            'foto.required' => 'Silahkan Masukkan file foto !',
             'foto.image' => 'Maaf file foto tidak valid !',
             'foto.mimes' => 'Maaf file foto tidak valid !',
             'foto.max' => 'Maaf file foto tidak valid, maksimal 2MB  !',
