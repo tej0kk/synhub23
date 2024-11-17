@@ -27,12 +27,12 @@ class JembatanController extends Controller
         $validator = Validator::make($request->all(), [
             'nama_jembatan'        => 'required',
             'panjang'           => 'required',
-            'tahun_pembuatan'             => 'required',
+            'tahun_pembangunan'             => 'required',
             'jenis_jembatan'  => 'required|in:rangka,gantung,beton',
         ], [
             'nama_jembatan.required' => 'Silahkan masukkan nama jembatan !',
             'panjang.required' => 'Silahkan masukkan panjang jembatan !',
-            'tahun_pembuatan.required' => 'Silahkan masukkan tahun pembuatan jembatan !',
+            'tahun_pembangunan.required' => 'Silahkan masukkan tahun pembangunan jembatan !',
             'jenis_jembatan.required' => 'Maaf, jenis jembatan tidak valid !',
             'jenis_jembatan.in' => 'Maaf, jenis jembatan tidak valid !',
         ]);
@@ -44,7 +44,7 @@ class JembatanController extends Controller
         $jembatan = Jembatan::create([
             'nama_jembatan'      => $request->nama_jembatan,
             'panjang'   => $request->panjang,
-            'tahun_pembuatan'     => $request->tahun_pembuatan,
+            'tahun_pembangunan'     => $request->tahun_pembangunan,
             'jenis_jembatan'     => $request->jenis_jembatan
         ]);
 
