@@ -43,7 +43,7 @@ class DanauController extends Controller
 
         $danau = Danau::create([
             'nama_danau'      => $request->nama_danau,
-            'panjang'   => $request->panjang,
+            'alamat'   => $request->alamat,
             'volume'     => $request->volume,
             'kondisi'     => $request->kondisi
         ]);
