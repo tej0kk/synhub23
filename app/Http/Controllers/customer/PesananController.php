@@ -26,7 +26,6 @@ class PesananController extends Controller
     {
 
         $rules = [
-            // 'user'      => 'required',
             'produk'    => 'required',
             'tanggal_1' => 'required',
             'bayar'     => 'required'

@@ -36,15 +36,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/unauthenticate', [AuthController::class, 'unauthenticate'])->name('unauthenticate');
 
-Route::get('/jalan', [JalanController::class, 'index']);
-Route::post('/jalan', [JalanController::class, 'store']);
-Route::get('/jembatan', [JembatanController::class, 'index']);
-Route::post('/jembatan', [JembatanController::class, 'store']);
-Route::get('/danau', [DanauController::class, 'index']);
-Route::post('/danau', [DanauController::class, 'store']);
-Route::get('/rawa', [RawaController::class, 'index']);
-Route::post('/rawa', [RawaController::class, 'store']);
-
 Route::prefix('customer')->group(function () {
     Route::post('/register', [AuthController::class, 'register'], ['as', 'customer']);
     Route::get('/banner', CustomerBannerController::class, ['as', 'customer']);
